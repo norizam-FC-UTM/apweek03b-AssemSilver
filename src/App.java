@@ -1,27 +1,52 @@
 import java.util.Scanner;
-
 class BankAccount {
 
     String name;
     double balance;
     double dividendRate; // example: 0.05 = 5%
+    String[] transactionHistory;
+    int idx;
 
     // Constructor
     public BankAccount(String name, double initialDeposit) {
         this.name = name;
         this.balance = initialDeposit;
-        this.dividendRate = 0.0;
+        this.transactionHistory = new String[90];
+        this.idx = 0;
+    }
+
+    public double getBalance(){
+        return this.balance;
     }
 
     // Deposit money
     public void deposit(double amount) {
-        balance = balance + amount;
-        // too simple - need refinement
+        if (amount <= 0){
+            System.out.println("Invalid amount");
+        }
+        else {
+            balance = balance + amount;
+            transactionHistory[idx] = "Deposit" + amount;
+            idx++;
+        }
+        
+
     }
 
     // Withdraw money
     public void withdraw(double amount) {
-        balance = balance - amount;
+
+        if (balance - amount < 0){
+            System.out.println("Not enough balance");
+        }
+        else {
+            balance = balance - amount;
+            transactionHistory[idx] = "withdraw..." + amount;
+            idx++;
+        }
+        
+
+
         // too simple - need refinement
     }
 
@@ -34,6 +59,14 @@ class BankAccount {
     public void applyDividend() {
         double dividend = calculateDividend();
         balance = balance + dividend;
+        transactionHistory[idx] = "Add Dividend";
+        idx++;
+    }
+
+    public void PrintTransactionHistory(){
+        for (int i = 0; i < idx; i++) {
+            System.out.println(transactionHistory[i]);
+        }
     }
 
     // Set dividend rate
@@ -52,6 +85,86 @@ class BankAccount {
     }
 }
 
+public class App {
+    public static void main(String[] args) {
+        int[] finMark = {88, 75, 60, 80, 90, 95, 77, 91, 77, 80};
+        for (int elem:finMark){
+            System.out.println(elem);
+        }
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("===== Bank Account SYSTEM =====");
+
+        
+        BankAccount acc1 = new BankAccount("Ali", 10);
+        BankAccount a2 = new BankAccount("Bali", 10);
+        BankAccount a3 = new BankAccount("Cali", 10);
+        BankAccount a4 = new BankAccount("Dali", 10);
+        BankAccount a5 = new BankAccount("Eali", 10);
+
+
+        System.out.println(a3);
+
+        a3.deposit(575);
+        a3.setDividendRate(0.125);
+        a3.applyDividend();
+        a3.printObjectState();
+
+        BankAccount[] accArr = new BankAccount[7]; 
+        System.out.println(accArr);
+        System.out.println(accArr[0]);
+        System.out.println(accArr[1]);
+        System.out.println(accArr[2]);
+        System.out.println(accArr[3]);
+        System.out.println(accArr[4]);
+
+
+        accArr[0] = acc1;
+        accArr[1] = a2;
+        accArr[2] = a3;
+
+        accArr[3] = new BankAccount("SITI", 500);
+        accArr[4] = new BankAccount("SIVA", 1000);
+        accArr[5] = a4;
+        accArr[6] = a5;
+
+        //deposit another rm700 to Siti
+        accArr[3].deposit(700);
+
+        accArr[4].withdraw(70);
+        accArr[4].deposit(400);
+        accArr[4].withdraw(200);
+
+        for (int x = 0; x < 7; x++){
+            accArr[x].printObjectState();
+        }
+
+        for (int x = 0; x < 7; x++){
+            accArr[x].setDividendRate(0.075);
+            accArr[x].applyDividend();
+            accArr[x].printObjectState();
+        }
+
+        BankAccount temp = accArr[0];
+        for (BankAccount elem : accArr){
+            if (elem.getBalance() > temp.getBalance()){
+                temp = elem;
+            }
+        }
+
+        System.out.println("The account with the most balance is: ");
+        temp.printObjectState();
+
+        accArr[4].PrintTransactionHistory();    
+
+        System.out.println("===== END OF PROGRAM =====");
+
+        sc.close();
+    }
+}
+
+/* 
 public class App {
     public static void main(String[] args) {
 
@@ -100,6 +213,7 @@ public class App {
         sc.close();
     }
 }
+    */
 
 /*
  * import java.util.Scanner;
