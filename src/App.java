@@ -1,18 +1,22 @@
 import java.util.Scanner;
+import java.util.ArrayList;
+
 class BankAccount {
 
     String name;
     double balance;
     double dividendRate; // example: 0.05 = 5%
-    String[] transactionHistory;
-    int idx;
+    ArrayList<String> transactionHistory;
+    // int idx;
 
     // Constructor
     public BankAccount(String name, double initialDeposit) {
         this.name = name;
         this.balance = initialDeposit;
-        this.transactionHistory = new String[90];
-        this.idx = 0;
+        this.transactionHistory = new ArrayList<String>();
+        //this.idx = 0;
+        this.transactionHistory.add("Account created with deposit: "+ initialDeposit);
+        //this.transactionHistory[idx] = "Account Created with deposit: "+ initialDeposit;
     }
 
     public double getBalance(){
@@ -26,8 +30,8 @@ class BankAccount {
         }
         else {
             balance = balance + amount;
-            transactionHistory[idx] = "Deposit" + amount;
-            idx++;
+            transactionHistory.add("Deposit: " + amount);
+            //idx++;
         }
         
 
@@ -41,8 +45,8 @@ class BankAccount {
         }
         else {
             balance = balance - amount;
-            transactionHistory[idx] = "withdraw..." + amount;
-            idx++;
+            transactionHistory.add("withdraw: " + amount);
+            //idx++;
         }
         
 
@@ -59,13 +63,13 @@ class BankAccount {
     public void applyDividend() {
         double dividend = calculateDividend();
         balance = balance + dividend;
-        transactionHistory[idx] = "Add Dividend";
-        idx++;
+        transactionHistory.add("Add Dividend: " + dividend);
+        //idx++;
     }
 
     public void PrintTransactionHistory(){
-        for (int i = 0; i < idx; i++) {
-            System.out.println(transactionHistory[i]);
+        for (int i = 0; i < transactionHistory.size(); i++) {
+            System.out.println(transactionHistory.get(i));
         }
     }
 
